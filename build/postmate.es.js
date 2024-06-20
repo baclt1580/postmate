@@ -1,5 +1,5 @@
 /**
-  postmate - A powerful, simple, promise-based postMessage library
+  @baclt/postmate - A powerful, simple, promise-based postMessage library
   @version v1.6.0
   @link https://github.com/dollarshaveclub/postmate
   @author Jacob Kelley <jakie8@gmail.com>
@@ -300,10 +300,17 @@ function () {
         classListArray = _ref2$classListArray === void 0 ? [] : _ref2$classListArray;
     // eslint-disable-line no-undef
     this.parent = window;
-    this.frame = document.createElement('iframe');
-    this.frame.name = name || '';
-    this.frame.classList.add.apply(this.frame.classList, classListArray);
-    container.appendChild(this.frame);
+
+    if (container instanceof HTMLIFrameElement) {
+      this.frame = container;
+      url = container.src;
+    } else {
+      this.frame = document.createElement('iframe');
+      this.frame.name = name || '';
+      this.frame.classList.add.apply(this.frame.classList, classListArray);
+      container.appendChild(this.frame);
+    }
+
     this.child = this.frame.contentWindow || this.frame.contentDocument.parentWindow;
     this.model = model || {};
     return this.sendHandshake(url);
